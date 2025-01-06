@@ -226,3 +226,159 @@ override fun equals(obj: Any?): Boolean {
 - **Casting**: Ocorre no trecho onde `something` é convertido para `Employee` usando `is` ou `as`.
 - **Comparações**: `===`, `!==` e `==` diferenciam referências e valores.
 - **Sobrescrita de `equals`** garante que comparações com `==` avaliem os atributos dos objetos.
+
+No **Java**, o código seria diferente devido à ausência de algumas funcionalidades presentes no Kotlin, como `typealias`, `===` e `!==`, suporte nativo para `ArrayList` genérico, casting seguro (`as?`), e a simplificação sintática que o Kotlin oferece. Vou reescrever o código em Java e explicar as diferenças ponto a ponto.
+
+---
+
+### **Versão do Código em Java**
+
+```java
+package academy.learnprogramming.declarations;
+
+import java.util.ArrayList;
+import java.util.Set;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        // Criação de objetos Employee
+        Employee employeeOne = new Employee("Mary", 1);
+        Employee employeeTwo = new Employee("John", 2);
+        Employee employeeThree = new Employee("John", 2);
+
+        // Comparações de referência e valor
+        System.out.println(employeeOne == employeeTwo); // Referência (equivalente a === no Kotlin)
+        System.out.println(employeeTwo == employeeThree); // Referência
+        System.out.println(employeeOne.equals(employeeTwo)); // Valor (equivalente a == no Kotlin)
+        System.out.println(employeeTwo.equals(employeeThree)); // Valor
+
+        // Comparação de referência com atribuição
+        Employee employeeFour = employeeTwo;
+        System.out.println(employeeFour == employeeTwo); // Referência
+
+        // Diferenças entre != e referência
+        System.out.println(employeeFour != employeeTwo); // Valor booleano
+        System.out.println(employeeTwo != employeeThree); // Valor booleano
+
+        // Operadores de bit
+        int x = 0x00101101;
+        int y = 0x11011011;
+
+        // Casting explícito
+        Object something = employeeFour;
+        if (something instanceof Employee) {
+            Employee newEmployee = (Employee) something; // Casting explícito
+            something = employeeOne;
+            System.out.println(((Employee) something).getName());
+        }
+
+        // Declaração e atribuição de variáveis
+        int number = 10;
+        number = 20;
+
+        // Manipulação de listas
+        ArrayList<String> names = new ArrayList<>();
+        names.add("John");
+        names.add("Jane");
+        names.add("Mary");
+        System.out.println(names.get(1)); // Índice 1
+
+        // EmployeeSet (equivalente ao typealias no Kotlin)
+        Set<Employee> employees;
+
+        // Trabalhando com objetos Employee
+        Employee employee1 = new Employee("Lynn Jones", 500);
+        employee1.setName("Lynn Smith");
+
+        Employee employee2;
+        int number2 = 100;
+
+        if (number < number2) {
+            employee2 = new Employee("Jane Smith", 400);
+        } else {
+            employee2 = new Employee("Mike Watson", 150);
+        }
+    }
+}
+
+class Employee {
+
+    private String name;
+    private final int id;
+
+    public Employee(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    // Getter e Setter
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    // Sobrescrevendo equals
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Employee) {
+            Employee other = (Employee) obj;
+            return name.equals(other.name) && id == other.id;
+        }
+        return false;
+    }
+}
+```
+
+---
+
+### **Diferenças Entre Kotlin e Java**
+
+1. **Typealias (Kotlin) vs. Tipo Direto (Java):**
+   - Kotlin permite criar um **alias** para um tipo com `typealias EmployeeSet = Set<Employee>`.
+   - Em Java, você usa diretamente `Set<Employee>` sem a possibilidade de criar um alias.
+
+2. **Comparação de Referências (`===` e `!==`):**
+   - Em Kotlin, `===` compara referências de memória e `!==` verifica se as referências são diferentes.
+   - Em Java, você usa `==` para comparar referências e `!=` para verificar se as referências são diferentes.
+
+3. **Comparação de Valores (`==`):**
+   - Em Kotlin, `==` chama automaticamente o método `equals`.
+   - Em Java, você precisa chamar `equals` explicitamente (`employeeOne.equals(employeeTwo)`).
+
+4. **Casting (Safe e Explicit):**
+   - Kotlin possui o casting seguro com `as?`, que retorna `null` caso o tipo não seja compatível.
+   - Em Java, você usa `instanceof` para verificar o tipo e faz o casting explicitamente com `(Employee)`.
+
+5. **Listas:**
+   - Kotlin tem suporte nativo para `arrayListOf("John", "Jane", "Mary")`.
+   - Em Java, você cria listas com `new ArrayList<>()` e adiciona elementos com `add`.
+
+6. **Propriedades vs. Getters/Setters:**
+   - Kotlin utiliza propriedades (`employee1.name = "Lynn Smith"`).
+   - Em Java, você usa métodos de acesso (`setName` e `getName`).
+
+7. **Operadores de Bit:**
+   - Operadores de bit (`shl`, `shr`, `and`, `or`, `xor`) são usados em Kotlin com nomes amigáveis.
+   - Em Java, você usa operadores tradicionais (`<<`, `>>`, `&`, `|`, `^`).
+
+8. **Null Safety:**
+   - Kotlin é null-safe, ou seja, evita exceções de ponteiros nulos.
+   - Em Java, você precisa lidar manualmente com verificações de `null`.
+
+---
+
+### **Exemplo de Saída do Código em Java**
+- As comparações de referências e valores se comportam de maneira similar.
+- Operadores de bit têm a mesma saída, mas a sintaxe é mais verbosa em Java.
+- Casting requer mais verificações manuais em Java.
+
+Se precisar de mais explicações ou otimizações, só avisar! 😊
